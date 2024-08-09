@@ -16,12 +16,10 @@ import eventflow from './event-flow';
 import eventSources from './event-sources';
 import help from './help';
 import login from './login';
-import {ModalSwitch} from './modals/modal-switch';
 import plugins from './plugins';
 import reports from './reports';
 import sensors from './sensors';
 import {uiUrl} from './shared/base';
-import {ChatButton} from './shared/components/chat-button';
 import ErrorBoundary from './shared/components/error-boundary';
 import {services} from './shared/services';
 import {Utils} from './shared/utils';
@@ -30,6 +28,7 @@ import {Widgets} from './widgets/widgets';
 import workflowEventBindings from './workflow-event-bindings';
 import workflowTemplates from './workflow-templates';
 import workflows from './workflows';
+import './i18n/index.js';
 
 const eventFlowUrl = uiUrl('event-flow');
 const sensorUrl = uiUrl('sensors');
@@ -82,83 +81,13 @@ export function AppRouter({popupManager, history, notificationsManager}: {popupM
             .catch(setError);
     }, []);
 
-    const namespaceSuffix = Utils.managedNamespace ? '' : '/' + (namespace || '');
     return (
         <>
             {popupProps && <Popup {...popupProps} />}
             <Router history={history}>
                 <Switch>
                     <Route path={uiUrl('widgets')} component={Widgets} />
-                    <Layout
-                        navBarStyle={{backgroundColor: navBarBackgroundColor}}
-                        navItems={[
-                            {
-                                title: 'Workflows',
-                                path: workflowsUrl + namespaceSuffix,
-                                iconClassName: 'fa fa-stream'
-                            },
-                            {
-                                title: 'Workflow Templates',
-                                path: workflowTemplatesUrl + namespaceSuffix,
-                                iconClassName: 'fa fa-window-maximize'
-                            },
-                            {
-                                title: 'Cluster Workflow Templates',
-                                path: clusterWorkflowTemplatesUrl,
-                                iconClassName: 'fa fa-window-restore'
-                            },
-                            {
-                                title: 'Cron Workflows',
-                                path: cronWorkflowsUrl + namespaceSuffix,
-                                iconClassName: 'fa fa-clock'
-                            },
-                            {
-                                title: 'Event Flow',
-                                path: eventFlowUrl + namespaceSuffix,
-                                iconClassName: 'fa fa-broadcast-tower'
-                            },
-                            {
-                                title: 'Event Sources',
-                                path: eventSourceUrl + namespaceSuffix,
-                                iconClassName: 'fas fa-bolt'
-                            },
-                            {
-                                title: 'Sensors',
-                                path: sensorUrl + namespaceSuffix,
-                                iconClassName: 'fa fa-satellite-dish'
-                            },
-                            {
-                                title: 'Workflow Event Bindings',
-                                path: workflowsEventBindingsUrl + namespaceSuffix,
-                                iconClassName: 'fa fa-link'
-                            },
-                            {
-                                title: 'Reports',
-                                path: reportsUrl + namespaceSuffix,
-                                iconClassName: 'fa fa-chart-bar'
-                            },
-                            {
-                                title: 'User',
-                                path: userInfoUrl,
-                                iconClassName: 'fa fa-user-alt'
-                            },
-                            {
-                                title: 'API Docs',
-                                path: apiDocsUrl,
-                                iconClassName: 'fa fa-code'
-                            },
-                            {
-                                title: 'Plugins',
-                                path: pluginsUrl,
-                                iconClassName: 'fa fa-puzzle-piece'
-                            },
-                            {
-                                title: 'Help',
-                                path: helpUrl,
-                                iconClassName: 'fa fa-question-circle'
-                            }
-                        ]}
-                        version={() => <>{version ? version.version : 'unknown'}</>}>
+                    <Layout navBarStyle={{backgroundColor: navBarBackgroundColor}} version={() => <>{version ? version.version : 'unknown'}</>}>
                         <Notifications notifications={notificationsManager.notifications} />
                         <ErrorBoundary>
                             <Switch>
@@ -183,8 +112,6 @@ export function AppRouter({popupManager, history, notificationsManager}: {popupM
                                 {namespace && <Redirect to={workflowsUrl + '/' + namespace} />}
                             </Switch>
                         </ErrorBoundary>
-                        <ChatButton />
-                        {version && modals && <ModalSwitch version={version.version} modals={modals} />}
                     </Layout>
                 </Switch>
             </Router>

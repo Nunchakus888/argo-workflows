@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const webpack = require('webpack');
+const path = require('path');
 
 const isProd = process.env.NODE_ENV === 'production';
 const proxyConf = {
@@ -27,6 +28,9 @@ const config = {
     devtool: isProd ? 'source-map' : 'eval',
 
     resolve: {
+        alias: {
+            'react': path.resolve('./node_modules/react')
+        },
         extensions: ['.ts', '.tsx', '.js', '.json', '.ttf'],
         fallback: {fs: false} // ignore `node:fs` on front-end
     },

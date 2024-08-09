@@ -15,7 +15,7 @@ func TestMetricsWorkQueue(t *testing.T) {
 	}
 	m := New(config, config)
 
-	assert.Empty(t, m.workersBusy)
+	assert.Len(t, m.workersBusy, 0)
 
 	m.newWorker("test")
 	assert.Len(t, m.workersBusy, 1)

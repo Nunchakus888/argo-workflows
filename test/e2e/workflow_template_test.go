@@ -48,7 +48,7 @@ spec:
 		WaitForWorkflow().
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowSucceeded, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowSucceeded)
 		})
 }
 
@@ -61,7 +61,7 @@ func (s *WorkflowTemplateSuite) TestSubmitWorkflowTemplateWithEnum() {
 		WaitForWorkflow().
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowSucceeded, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowSucceeded)
 		})
 }
 
@@ -74,7 +74,7 @@ func (s *WorkflowTemplateSuite) TestSubmitWorkflowTemplateWorkflowMetadataSubsti
 		WaitForWorkflow().
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowSucceeded, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowSucceeded)
 		})
 }
 
@@ -87,7 +87,7 @@ func (s *WorkflowTemplateSuite) TestSubmitWorkflowTemplateResourceUnquotedExpres
 		WaitForWorkflow().
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowSucceeded, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowSucceeded)
 		})
 }
 
@@ -100,7 +100,7 @@ func (s *WorkflowTemplateSuite) TestSubmitWorkflowTemplateWithParallelStepsRequi
 		WaitForWorkflow().
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowSucceeded, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowSucceeded)
 		}).
 		ExpectPVCDeleted()
 }
@@ -121,7 +121,7 @@ spec:
 		WaitForWorkflow(fixtures.ToBeErrored).
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowError, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowError)
 			assert.Contains(t, status.Message, "error in exit template execution")
 		}).
 		ExpectPVCDeleted()
@@ -143,7 +143,7 @@ spec:
 		WaitForWorkflow(fixtures.ToBeSucceeded).
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowSucceeded, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowSucceeded)
 		}).
 		ExpectWorkflowNode(func(status v1alpha1.NodeStatus) bool {
 			return strings.Contains(status.Name, "hooks.running")
@@ -173,7 +173,7 @@ spec:
 		WaitForWorkflow(fixtures.ToBeErrored).
 		Then().
 		ExpectWorkflow(func(t *testing.T, metadata *v1.ObjectMeta, status *v1alpha1.WorkflowStatus) {
-			assert.Equal(t, v1alpha1.WorkflowError, status.Phase)
+			assert.Equal(t, status.Phase, v1alpha1.WorkflowError)
 			assert.Contains(t, status.Message, "error in entry template execution")
 		}).
 		ExpectPVCDeleted()

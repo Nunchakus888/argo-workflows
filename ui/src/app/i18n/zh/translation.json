@@ -1,0 +1,147 @@
+{
+  "true": "是",
+  "false": "否",
+  "unknown": "未知",
+  "SHOW": "展开",
+  "HIDE": "收起",
+
+  "filter": {
+    "createdSince": "开始",
+    "cronWorkflow": "定时工作流",
+    "entrypoint": "入口",
+    "error": "错误",
+    "Phases": "状态",
+    "failed": "失败",
+    "finishedBefore": "结束",
+    "label": "标签",
+    "labels": "标签",
+    "login": "登录",
+    "logs": "日志",
+    "namespace": "命名空间",
+    "parameters": "参数",
+    "pending": "等待",
+    "phases": "状态",
+    "plugins": "插件",
+    "resubmit": "再次提交",
+    "retry": "重试",
+    "runningWorkflows": "运行中的工作流",
+    "share": "分享",
+    "submit": "提交",
+    "submitNewWorkflow": "提交新的工作流",
+    "submitWorkflow": "提交工作流",
+    "succeeded": "成功",
+    "workflowTemplate": "工作流模板",
+    "workflowTemplates": "工作流模板"
+  },
+  "workflowList": {
+    "Workflows": "工作流",
+    "Workflow Details": "工作流详情",
+    "summary": {
+      "Inputs": "输入",
+      "Outputs": "输出",
+      "SUMMARY": "概览",
+      "CONTAINERS": "容器",
+      "INPUTS/OUTPUTS": "输入/输出",
+      "Workflows Summary": "工作流概览",
+      "Running workflows": "运行中",
+      "Running": "运行中",
+      "Pending": "等待中",
+      "Succeeded": "成功",
+      "Failed": "失败",
+      "Error": "错误",
+      "Only workflows in view are summarized": "仅概括视图中的工作流"
+    },
+    "toolbar": {
+      "RETRY": "重试",
+      "RESUBMIT": "再次提交",
+      "SUSPEND": "暂停",
+      "RESUME": "恢复",
+      "STOP": "停止",
+      "TERMINATE": "终止",
+      "DELETE": "删除",
+      "Previous Runs": "历史运行",
+      "Logs": "日志",
+      "MANIFEST": "清单",
+      "LOGS": "日志",
+      "EVENTS": "事件",
+      "workflows selected": "{{count}}个工作流已选择"
+    },
+    "logs": {
+      "Logs for archived workflows may be overwritten by a more recent workflow with the same name.": "归档工作流的日志可能会被具有相同名称的较新工作流覆盖。",
+      "Filter (regexp)...": "过滤（正则表达式）...",
+      "Log Fields": "日志字段",
+      "Select Json Fields": "选择 JSON 字段",
+      "Init containers logs are useful when debugging input artifact problems.": "当调试输入工件问题时，初始化容器日志很有用。",
+      "Wait containers logs are useful when debugging output artifact problems.": "当调试输出工件问题时，等待容器日志很有用。",
+      "logs from the artifacts": "工件的日志",
+      "on completion.": "在完成时。",
+      "Still waiting for data or an error? Try getting": "仍在等待数据或错误？尝试获取",
+      "Your pod GC settings will delete pods and their logs": "您的 pod GC 设置将删除 pod 及其日志",
+      "Logs may not appear for pods that are deleted.": "可能不会显示已删除的 pod 的日志。"
+    },
+    "actions": {
+      "confirm": {
+        "title": "提示",
+        "msg": "确定要{{action}}所有选中的工作流？",
+        "Do you also want to delete them from the Archived Workflows database": "是否也要从归档工作流数据库中删除它们？",
+        "delete": {
+          "Are you sure you want to delete this workflow?": "确定要删除此工作流吗？",
+          "Delete in database": "在数据库中删除"
+        },
+        "x": "Are you sure you want to {{title}} this workflow?",
+        "Are you sure you want to {{title}} this workflow?": "确定要{{title}}此工作流吗？"
+      },
+      "execute": {
+        "msg": "对选定的工作流执行了{{action}}。",
+        "Performed {{action}} on selected workflows.": "对选定的工作流执行了{{action}}。",
+        "common": "对选定的工作流执行了{{action}}。",
+
+        "Unable to delete workflow ${wf.metadata.name} in the cluster: ${reason.toString()}": "无法在集群中删除工作流 {{name}}：{{reason}}",
+        "Unable to delete workflow ${wf.metadata.name} in database: ${reason.toString()}": "无法在数据库中删除工作流 {{name}}：{{reason}}",
+        "Unable to ${title} workflow: ${reason.content.toString()}": "无法{{title}}工作流：{{reason}}",
+        "deleteClusterMsg": "无法在集群中删除工作流 {{name}}：{{reason}}",
+        "deleteDbMsg": "无法在数据库中删除工作流 {{name}}：{{reason}}",
+        "unable": "无法{{title}}工作流：{{reason}}"
+      }
+    },
+    "columns": {
+      "NAME": "名称",
+      "NAMESPACE": "命名空间",
+      "STARTED": "开始",
+      "FINISHED": "结束",
+      "DURATION": "持续时间",
+      "PROGRESS": "进度",
+      "MESSAGE": "消息",
+      "DETAILS": "详情",
+      "ARCHIVED": "归档",
+      "Workflow Completed": "完成"
+    },
+    "drawer": {
+      "RESOURCES_DURATION": "资源使用",
+      "MESSAGE": "消息",
+      "CONDITIONS": "条件",
+      "FROM": "来源",
+      "LABELS": "标签",
+      "Creator": "创建者"
+    },
+    "noData": {
+        "No workflows": "没有数据",
+        "No matching workflows found": "没有找到匹配的工作流"
+    }
+  },
+  "pagination": {
+    "total": "共",
+    "items": "条",
+    "perPage": "每页",
+    "page": "页",
+    "index": "第",
+    "first": "首页",
+    "next": "下一页",
+    "previous": "上一页",
+    "warning": {
+      "sort": "工作流在分页时无法全局排序",
+      "Workflows cannot be globally sorted when paginated": "工作流在分页时无法全局排序",
+      "noMore": "没有更多数据"
+    }
+  }
+}

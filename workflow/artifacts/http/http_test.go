@@ -129,7 +129,7 @@ func TestSaveHTTPArtifactRedirect(t *testing.T) {
 			},
 		}
 		err := driver.Save(tempFile, &art)
-		assert.NoError(t, err)
+		assert.Nil(t, err)
 	})
 
 }

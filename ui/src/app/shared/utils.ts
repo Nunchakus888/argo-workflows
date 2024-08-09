@@ -84,10 +84,9 @@ export const Utils = {
 
     fixLocalStorageString(x: string): string {
         // empty string is valid, so we cannot use `truthy`
-        if (x == null || x == 'null' || x == 'undefined') {
-            return undefined; // explicitly return undefined
+        if (x !== null && x !== 'null' && x !== 'undefined') {
+            return x;
         }
-        return x;
     },
 
     // TODO: some of these utils should probably be moved to context
@@ -106,7 +105,12 @@ export const Utils = {
     },
 
     get currentNamespace() {
-        return this.fixLocalStorageString(localStorage.getItem(currentNamespaceKey)) ?? (this.userNamespace || this.managedNamespace);
+        // we always prefer the managed namespace
+        if (localStorage.getItem(currentNamespaceKey) === null) {
+            return this.userNamespace || this.managedNamespace;
+        } else {
+            return this.fixLocalStorageString(localStorage.getItem(currentNamespaceKey));
+        }
     },
 
     // return a namespace, favoring managed namespace when set

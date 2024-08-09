@@ -1,0 +1,3 @@
+node increment-version.js
+git add .
+git commit --amend --no-edit --no-verify

@@ -109,7 +109,7 @@ spec:
 	assert.NoError(t, err)
 	wf = ConvertCronWorkflowToWorkflow(&cronWf)
 	if assert.Contains(t, wf.GetLabels(), LabelKeyControllerInstanceID) {
-		assert.Equal(t, "test-controller", wf.GetLabels()[LabelKeyControllerInstanceID])
+		assert.Equal(t, wf.GetLabels()[LabelKeyControllerInstanceID], "test-controller")
 	}
 
 	err = yaml.Unmarshal([]byte(cronWfInstanceIdString), &cronWf)

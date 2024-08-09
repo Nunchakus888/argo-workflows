@@ -195,7 +195,7 @@ dist/argo-%: server/static/files.go $(CLI_PKGS) go.sum
 dist/argo: server/static/files.go $(CLI_PKGS) go.sum
 ifeq ($(shell uname -s),Darwin)
 	# if local, then build fast: use CGO and dynamic-linking
-	go build -v -gcflags '${GCFLAGS}' -ldflags '${LDFLAGS}' -o $@ ./cmd/argo
+	go build -v -gcflags '${GCFLAGS}' -ldflags '${LDFLAGS}' -buildvcs=false -o $@ ./cmd/argo
 else
 	CGO_ENABLED=0 go build -gcflags '${GCFLAGS}' -v -ldflags '${LDFLAGS} -extldflags -static' -o $@ ./cmd/argo
 endif
@@ -283,7 +283,7 @@ swagger: \
 $(GOPATH)/bin/mockery:
 # update this in Nix when upgrading it here
 ifneq ($(USE_NIX), true)
-	go install github.com/vektra/mockery/v2@v2.42.2
+	go install github.com/vektra/mockery/v2@v2.42.0
 endif
 $(GOPATH)/bin/controller-gen:
 # update this in Nix when upgrading it here
@@ -462,7 +462,7 @@ test: server/static/files.go
 	touch dist/test
 
 .PHONY: install
-install: githooks
+#install: githooks
 	kubectl get ns $(KUBE_NAMESPACE) || kubectl create ns $(KUBE_NAMESPACE)
 	kubectl config set-context --current --namespace=$(KUBE_NAMESPACE)
 	@echo "installing PROFILE=$(PROFILE)"
@@ -730,18 +730,18 @@ docs-serve: docs
 	mkdocs serve
 
 # pre-commit checks
-
-.git/hooks/%: hack/git/hooks/%
-	@mkdir -p .git/hooks
-	cp hack/git/hooks/$* .git/hooks/$*
-
-.PHONY: githooks
-githooks: .git/hooks/pre-commit .git/hooks/commit-msg
-
-.PHONY: pre-commit
-pre-commit: codegen lint docs
-	# marker file, based on it's modification time, we know how long ago this target was run
-	touch dist/pre-commit
+#
+#.git/hooks/%: hack/git/hooks/%
+#	@mkdir -p .git/hooks
+#	cp hack/git/hooks/$* .git/hooks/$*
+#
+#.PHONY: githooks
+#githooks: .git/hooks/pre-commit .git/hooks/commit-msg
+#
+#.PHONY: pre-commit
+#pre-commit: codegen lint docs
+#	# marker file, based on it's modification time, we know how long ago this target was run
+#	touch dist/pre-commit
 
 # release
 

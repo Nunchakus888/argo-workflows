@@ -9,7 +9,6 @@ import {isArchivedWorkflow, Workflow, WorkflowPhase, WorkflowPhases} from '../..
 import {uiUrl} from '../../../shared/base';
 import {CostOptimisationNudge} from '../../../shared/components/cost-optimisation-nudge';
 import {ErrorNotice} from '../../../shared/components/error-notice';
-import {ExampleManifests} from '../../../shared/components/example-manifests';
 import {Loading} from '../../../shared/components/loading';
 import {PaginationPanel} from '../../../shared/components/pagination-panel';
 import {useCollectEvent} from '../../../shared/use-collect-event';
@@ -27,6 +26,7 @@ import {WorkflowFilters} from '../workflow-filters/workflow-filters';
 import {WorkflowsRow} from '../workflows-row/workflows-row';
 import {WorkflowsSummaryContainer} from '../workflows-summary-container/workflows-summary-container';
 import {WorkflowsToolbar} from '../workflows-toolbar/workflows-toolbar';
+import {useTranslation} from 'react-i18next';
 
 import './workflows-list.scss';
 
@@ -52,6 +52,7 @@ const storage = new ScopedLocalStorage('ListOptions');
 export function WorkflowsList({match, location, history}: RouteComponentProps<any>) {
     const queryParams = new URLSearchParams(location.search);
     const {navigation} = useContext(Context);
+    const {t} = useTranslation();
 
     const [namespace, setNamespace] = useState(Utils.getNamespace(match.params.namespace) || '');
     const [pagination, setPagination] = useState<Pagination>(() => {
@@ -162,26 +163,12 @@ export function WorkflowsList({match, location, history}: RouteComponentProps<an
 
     return (
         <Page
-            title='Workflows'
+            title=""
             toolbar={{
                 breadcrumbs: [
-                    {title: 'Workflows', path: uiUrl('workflows')},
+                    {title: t('workflowList.Workflows'), path: uiUrl('workflows')},
                     {title: namespace, path: uiUrl('workflows/' + namespace)}
-                ],
-                actionMenu: {
-                    items: [
-                        {
-                            title: 'Submit New Workflow',
-                            iconClassName: 'fa fa-plus',
-                            action: () => navigation.goto('.', {sidePanel: 'submit-new-workflow'})
-                        },
-                        ...links.map(link => ({
-                            title: link.name,
-                            iconClassName: 'fa fa-external-link',
-                            action: () => (window.location.href = link.url)
-                        }))
-                    ]
-                }
+                ]
             }}>
             <WorkflowsToolbar
                 selectedWorkflows={selectedWorkflows}
@@ -191,7 +178,7 @@ export function WorkflowsList({match, location, history}: RouteComponentProps<an
             />
             <div className={`row ${selectedWorkflows.size === 0 ? '' : 'pt-60'}`}>
                 <div className='columns small-12 xlarge-2'>
-                    <WorkflowsSummaryContainer workflows={filteredWorkflows} />
+                    <WorkflowsSummaryContainer t={t} workflows={filteredWorkflows} />
                     <div>
                         <WorkflowFilters
                             workflows={filteredWorkflows || []}
@@ -220,11 +207,7 @@ export function WorkflowsList({match, location, history}: RouteComponentProps<an
                     {!workflows ? (
                         <Loading />
                     ) : filteredWorkflows.length === 0 ? (
-                        <ZeroState title='No workflows'>
-                            <p>To create a new workflow, use the button above.</p>
-                            <p>
-                                <ExampleManifests />.
-                            </p>
+                        <ZeroState title={t('workflowList.noData.No workflows')}>
                         </ZeroState>
                     ) : (
                         <>
@@ -254,19 +237,19 @@ export function WorkflowsList({match, location, history}: RouteComponentProps<an
                                         />
                                     </div>
                                     <div className='row small-11'>
-                                        <div className='columns small-2'>NAME</div>
-                                        <div className='columns small-1'>NAMESPACE</div>
-                                        <div className='columns small-1'>STARTED</div>
-                                        <div className='columns small-1'>FINISHED</div>
-                                        <div className='columns small-1'>DURATION</div>
-                                        <div className='columns small-1'>PROGRESS</div>
-                                        <div className='columns small-2'>MESSAGE</div>
-                                        <div className='columns small-1'>DETAILS</div>
-                                        <div className='columns small-1'>ARCHIVED</div>
+                                        <div className='columns small-2'>{t('workflowList.columns.NAME')}</div>
+                                        <div className='columns small-1'>{t('workflowList.columns.NAMESPACE')}</div>
+                                        <div className='columns small-1'>{t('workflowList.columns.STARTED')}</div>
+                                        <div className='columns small-1'>{t('workflowList.columns.FINISHED')}</div>
+                                        <div className='columns small-1'>{t('workflowList.columns.DURATION')}</div>
+                                        <div className='columns small-1'>{t('workflowList.columns.PROGRESS')}</div>
+                                        <div className='columns small-2'>{t('workflowList.columns.MESSAGE')}</div>
+                                        <div className='columns small-1'>{t('workflowList.columns.DETAILS')}</div>
+                                        <div className='columns small-1'>{t('workflowList.columns.ARCHIVED')}</div>
                                         {(columns || []).map(col => {
                                             return (
                                                 <div className='columns small-1' key={col.key}>
-                                                    {col.name}
+                                                    {t(`workflowList.columns.${col.name}`)}
                                                 </div>
                                             );
                                         })}

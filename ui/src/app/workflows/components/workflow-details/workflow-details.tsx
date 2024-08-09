@@ -41,6 +41,7 @@ import {WorkflowYamlViewer} from '../workflow-yaml-viewer/workflow-yaml-viewer';
 import {ArtifactPanel} from './artifact-panel';
 import {SuspendInputs} from './suspend-inputs';
 import {WorkflowResourcePanel} from './workflow-resource-panel';
+import {useTranslation} from 'react-i18next';
 
 import './workflow-details.scss';
 
@@ -62,10 +63,12 @@ let globalDeleteArchived = false;
 function DeleteCheck(props: {isWfInDB: boolean; isWfInCluster: boolean}) {
     // The local states are created intentionally so that the checkbox works as expected
     const [da, sda] = useState(false);
+    const {t} = useTranslation();
+
     if (props.isWfInDB && props.isWfInCluster) {
         return (
             <>
-                <p>Are you sure you want to delete this workflow?</p>
+                <p>{t('workflowList.actions.confirm.delete.Are you sure you want to delete this workflow?')}</p>
                 <div className='workflows-list__status'>
                     <input
                         type='checkbox'
@@ -77,14 +80,14 @@ function DeleteCheck(props: {isWfInDB: boolean; isWfInCluster: boolean}) {
                         }}
                         id='delete-check'
                     />
-                    <label htmlFor='delete-check'>Delete in database</label>
+                    <label htmlFor='delete-check'>{t('workflowList.actions.confirm.delete.Delete in database')}</label>
                 </div>
             </>
         );
     } else {
         return (
             <>
-                <p>Are you sure you want to delete this workflow?</p>
+                <p>{t('workflowList.actions.confirm.delete.Are you sure you want to delete this workflow?')}</p>
             </>
         );
     }
@@ -96,6 +99,7 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
     const queryParams = new URLSearchParams(location.search);
     const namespace = match.params.namespace;
     const name = match.params.name;
+    const {t} = useTranslation();
 
     const [tab, setTab] = useState(queryParams.get('tab') || 'workflow');
     const [uid, setUid] = useState(queryParams.get('uid') || '');
@@ -190,12 +194,14 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
             .map(actionName => {
                 const workflowOperation = workflowOperationsMap[actionName];
                 return {
-                    title: workflowOperation.title.charAt(0).toUpperCase() + workflowOperation.title.slice(1),
+                    title: t(`workflowList.toolbar.${workflowOperation.title}`),
                     iconClassName: workflowOperation.iconClassName,
                     action: () => {
                         if (workflowOperation.title === 'DELETE') {
                             popup
-                                .confirm('Confirm', () => <DeleteCheck isWfInDB={isArchivedWorkflow(workflow)} isWfInCluster={isWorkflowInCluster(workflow)} />)
+                                .confirm(t('workflowList.actions.confirm.title'), () => (
+                                    <DeleteCheck isWfInDB={isArchivedWorkflow(workflow)} isWfInCluster={isWorkflowInCluster(workflow)} />
+                                ))
                                 .then(async yes => {
                                     if (!yes) return;
 
@@ -218,11 +224,15 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
                         } else if (workflowOperation.title === 'RETRY') {
                             setSidePanel('retry');
                         } else {
-                            popup.confirm('Confirm', `Are you sure you want to ${workflowOperation.title.toLowerCase()} this workflow?`).then(yes => {
-                                if (!yes) return;
-
-                                workflowOperation.action(workflow).catch(setError);
-                            });
+                            popup
+                                .confirm(
+                                    t('workflowList.actions.confirm.title'),
+                                    t('workflowList.actions.confirm.x', {title: t(`workflowList.toolbar.${workflowOperation.title}`)})
+                                )
+                                .then(yes => {
+                                    if (!yes) return;
+                                    workflowOperation.action(workflow).catch(setError);
+                                });
                         }
                     }
                 };
@@ -231,26 +241,8 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
         items.push({
             action: () => setSidePanel('logs'),
             iconClassName: 'fa fa-bars',
-            title: 'Logs'
+            title: t('workflowList.toolbar.Logs')
         });
-
-        items.push({
-            action: () => setSidePanel('share'),
-            iconClassName: 'fa fa-share-alt',
-            title: 'Share'
-        });
-
-        if (links) {
-            links
-                .filter(link => link.scope === 'workflow')
-                .forEach(link => {
-                    items.push({
-                        title: link.name,
-                        iconClassName: 'fa fa-external-link-alt',
-                        action: () => openLink(link)
-                    });
-                });
-        }
 
         // we only want one link, and we have a preference
         for (const k of [
@@ -264,7 +256,7 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
             const v = labels[k];
             if (v) {
                 items.push({
-                    title: 'Previous Runs',
+                    title: t('workflowList.toolbar.Previous Runs'),
                     iconClassName: 'fa fa-search',
                     action: () => navigation.goto(uiUrl(`workflows/${workflow.metadata.namespace}?label=${k}=${v}`))
                 });
@@ -272,7 +264,7 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
             }
         }
 
-        if (workflow?.spec?.workflowTemplateRef) {
+        /*if (workflow?.spec?.workflowTemplateRef) {
             const templateName: string = workflow.spec.workflowTemplateRef.name;
             const clusterScope: boolean = workflow.spec.workflowTemplateRef.clusterScope;
             const url: string = clusterScope ? uiUrl(`cluster-workflow-templates/${templateName}`) : uiUrl(`workflow-templates/${workflow.metadata.namespace}/${templateName}`);
@@ -289,7 +281,7 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
                 iconClassName: icon,
                 action: () => openLink(templateLink)
             });
-        }
+        }*/
 
         return items;
     }
@@ -466,7 +458,7 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
     }
 
     function renderResumePopup() {
-        return popup.confirm('Confirm', renderSuspendNodeOptions).then(yes => {
+        return popup.confirm(t('workflowList.actions.confirm.title'), renderSuspendNodeOptions).then(yes => {
             if (!yes) return;
 
             updateOutputParametersForNodeIfRequired().then(resumeNode).catch(setError);
@@ -479,10 +471,10 @@ export function WorkflowDetails({history, location, match}: RouteComponentProps<
 
     return (
         <Page
-            title={'Workflow Details'}
+            title={t('workflowList.Workflow Details')}
             toolbar={{
                 breadcrumbs: [
-                    {title: 'Workflows', path: uiUrl('workflows')},
+                    {title: t('workflowList.Workflows'), path: uiUrl('workflows')},
                     {title: namespace, path: uiUrl('workflows/' + namespace)},
                     {title: name, path: uiUrl('workflows/' + namespace + '/' + name)}
                 ],

@@ -8,7 +8,7 @@ import './workflows-summary-container.scss';
 
 type ReduceReturnType = Record<string, number>;
 
-export function WorkflowsSummaryContainer(props: {workflows: Workflow[]}) {
+export function WorkflowsSummaryContainer(props: {workflows: Workflow[]; t: any}) {
     const [wfSummary, setWfSummary] = useState(null);
     useEffect(() => {
         if (props.workflows) {
@@ -22,34 +22,34 @@ export function WorkflowsSummaryContainer(props: {workflows: Workflow[]}) {
     return (
         <div className='wf-summary-container'>
             <p className='wf-summary-container__title'>
-                Workflows Summary{' '}
-                <Tooltip content='Only workflows in view are summarized'>
+                {props.t('workflowList.summary.Workflows Summary') + ' '}
+                <Tooltip content={props.t('workflowList.summary.Only workflows in view are summarized')}>
                     <i className='fa fa-info-circle' />
                 </Tooltip>
             </p>
             <div className='row'>
                 <div className='columns small-12 xlarge-12'>
-                    <span className='wf-summary-container__text'>Running workflows &nbsp;</span>
+                    <span className='wf-summary-container__text'>{props.t('workflowList.summary.Running workflows')}&nbsp;</span>
                     <span className='wf-summary-container__running'>{wfSummary && wfSummary.Running ? wfSummary.Running : 0}</span>
                 </div>
             </div>
             <div className='row'>
                 <div className='columns small-12 xlarge-6'>
-                    <span className='wf-summary-container__subtext'>Pending &nbsp;</span>
+                    <span className='wf-summary-container__subtext'>{props.t('workflowList.summary.Pending')}&nbsp;</span>
                     <span className='wf-summary-container__others'>{wfSummary && wfSummary.Pending ? wfSummary.Pending : 0}</span>
                 </div>
                 <div className='columns small-12 xlarge-6'>
-                    <span className='wf-summary-container__subtext'>Succeeded &nbsp;</span>
+                    <span className='wf-summary-container__subtext'>{props.t('workflowList.summary.Succeeded')}&nbsp;</span>
                     <span className='wf-summary-container__others'>{wfSummary && wfSummary.Succeeded ? wfSummary.Succeeded : 0}</span>
                 </div>
             </div>
             <div className='row'>
                 <div className='columns small-12 xlarge-6'>
-                    <span className='wf-summary-container__subtext'>Failed &nbsp;</span>
+                    <span className='wf-summary-container__subtext'>{props.t('workflowList.summary.Failed')}&nbsp;</span>
                     <span className='wf-summary-container__others'>{wfSummary && wfSummary.Failed ? wfSummary.Failed : 0}</span>
                 </div>
                 <div className='columns small-12 xlarge-6'>
-                    <span className='wf-summary-container__subtext'>Error &nbsp;</span>
+                    <span className='wf-summary-container__subtext'>{props.t('workflowList.summary.Error')}&nbsp;</span>
                     <span className='wf-summary-container__others'>{wfSummary && wfSummary.Error ? wfSummary.Error : 0}</span>
                 </div>
             </div>

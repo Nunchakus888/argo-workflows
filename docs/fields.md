@@ -189,17 +189,15 @@ Workflow is the definition of a workflow resource
 
 - [`k8s-jobs.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-jobs.yaml)
 
+- [`k8s-json-patch-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-json-patch-workflow.yaml)
+
 - [`k8s-orchestration.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-orchestration.yaml)
 
 - [`k8s-owner-reference.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-owner-reference.yaml)
 
-- [`k8s-patch-json-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-pod.yaml)
+- [`k8s-patch-basic.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-basic.yaml)
 
-- [`k8s-patch-json-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-workflow.yaml)
-
-- [`k8s-patch-merge-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-merge-pod.yaml)
-
-- [`k8s-patch-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-pod.yaml)
+- [`k8s-patch.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch.yaml)
 
 - [`k8s-resource-log-selector.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-resource-log-selector.yaml)
 
@@ -629,13 +627,11 @@ WorkflowSpec is the specification of a Workflow.
 
 - [`intermediate-parameters.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/intermediate-parameters.yaml)
 
+- [`k8s-json-patch-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-json-patch-workflow.yaml)
+
 - [`k8s-owner-reference.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-owner-reference.yaml)
 
-- [`k8s-patch-json-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-pod.yaml)
-
-- [`k8s-patch-json-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-workflow.yaml)
-
-- [`k8s-patch-merge-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-merge-pod.yaml)
+- [`k8s-patch.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch.yaml)
 
 - [`k8s-wait-wf.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-wait-wf.yaml)
 
@@ -1072,13 +1068,11 @@ CronWorkflowSpec is the specification of a CronWorkflow
 
 - [`intermediate-parameters.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/intermediate-parameters.yaml)
 
+- [`k8s-json-patch-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-json-patch-workflow.yaml)
+
 - [`k8s-owner-reference.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-owner-reference.yaml)
 
-- [`k8s-patch-json-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-pod.yaml)
-
-- [`k8s-patch-json-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-workflow.yaml)
-
-- [`k8s-patch-merge-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-merge-pod.yaml)
+- [`k8s-patch.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch.yaml)
 
 - [`k8s-wait-wf.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-wait-wf.yaml)
 
@@ -2840,13 +2834,11 @@ ResourceTemplate is a template subtype to manipulate kubernetes resources
 
 - [`cron-backfill.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/cron-backfill.yaml)
 
+- [`k8s-json-patch-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-json-patch-workflow.yaml)
+
 - [`k8s-owner-reference.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-owner-reference.yaml)
 
-- [`k8s-patch-json-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-pod.yaml)
-
-- [`k8s-patch-json-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-workflow.yaml)
-
-- [`k8s-patch-merge-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-merge-pod.yaml)
+- [`k8s-patch.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch.yaml)
 
 - [`k8s-wait-wf.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-wait-wf.yaml)
 
@@ -3694,9 +3686,7 @@ MetricLabel is a single label for a prometheus metric
 
 - [`k8s-owner-reference.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-owner-reference.yaml)
 
-- [`k8s-patch-json-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-pod.yaml)
-
-- [`k8s-patch-merge-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-merge-pod.yaml)
+- [`k8s-patch.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch.yaml)
 
 - [`pod-gc-strategy-with-label-selector.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/pod-gc-strategy-with-label-selector.yaml)
 
@@ -4745,13 +4735,11 @@ ObjectMeta is metadata that all persisted resources must have, which includes al
 
 - [`intermediate-parameters.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/intermediate-parameters.yaml)
 
+- [`k8s-json-patch-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-json-patch-workflow.yaml)
+
 - [`k8s-owner-reference.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-owner-reference.yaml)
 
-- [`k8s-patch-json-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-pod.yaml)
-
-- [`k8s-patch-json-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-workflow.yaml)
-
-- [`k8s-patch-merge-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-merge-pod.yaml)
+- [`k8s-patch.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch.yaml)
 
 - [`k8s-wait-wf.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-wait-wf.yaml)
 
@@ -6082,13 +6070,11 @@ PersistentVolumeClaimSpec describes the common attributes of storage devices and
 
 - [`intermediate-parameters.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/intermediate-parameters.yaml)
 
+- [`k8s-json-patch-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-json-patch-workflow.yaml)
+
 - [`k8s-owner-reference.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-owner-reference.yaml)
 
-- [`k8s-patch-json-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-pod.yaml)
-
-- [`k8s-patch-json-workflow.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-json-workflow.yaml)
-
-- [`k8s-patch-merge-pod.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch-merge-pod.yaml)
+- [`k8s-patch.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-patch.yaml)
 
 - [`k8s-wait-wf.yaml`](https://github.com/argoproj/argo-workflows/blob/main/examples/k8s-wait-wf.yaml)
 

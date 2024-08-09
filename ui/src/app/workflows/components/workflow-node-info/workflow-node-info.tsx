@@ -12,7 +12,6 @@ import {Button} from '../../../shared/components/button';
 import {ClipboardText} from '../../../shared/components/clipboard-text';
 import {DurationPanel} from '../../../shared/components/duration-panel';
 import {InlineTable} from '../../../shared/components/inline-table/inline-table';
-import {Links} from '../../../shared/components/links';
 import {Phase} from '../../../shared/components/phase';
 import {Timestamp} from '../../../shared/components/timestamp';
 import {getPodName} from '../../../shared/pod-name';
@@ -21,6 +20,7 @@ import {services} from '../../../shared/services';
 import {getResolvedTemplates} from '../../../shared/template-resolution';
 
 import './workflow-node-info.scss';
+import {useTranslation} from 'react-i18next';
 
 function nodeDuration(node: models.NodeStatus, now: moment.Moment) {
     const endTime = node.finishedAt ? moment(node.finishedAt) : now;
@@ -66,6 +66,7 @@ interface Props {
     onTabSelected?: (tabSelected: string) => void;
     selectedTabKey?: string;
     onResume?: () => void;
+    t?: (s: string) => string;
 }
 
 const AttributeRow = (attr: {title: string; value: any}) => (
@@ -103,6 +104,7 @@ function DisplayWorkflowTime(props: {date: Date | string | number}) {
 function WorkflowNodeSummary(props: Props) {
     const {workflow, node} = props;
     const podName = getPodName(workflow, node);
+    const {t} = useTranslation();
 
     const attributes = [
         {title: 'NAME', value: <ClipboardText text={props.node.name} />},
@@ -185,22 +187,22 @@ function WorkflowNodeSummary(props: Props) {
             <div>
                 {props.node.type === 'Suspend' && props.onResume && (
                     <Button icon='play' onClick={() => props.onResume()}>
-                        RESUME
+                        {t('workflowList.toolbar.RESUME')}
                     </Button>
                 )}{' '}
                 {props.node.type !== 'Container' && props.onShowYaml && (
                     <Button icon='file-code' onClick={() => props.onShowYaml(props.node.id)}>
-                        MANIFEST
+                        {t('workflowList.toolbar.MANIFEST')}
                     </Button>
                 )}{' '}
                 {props.node.type === 'Pod' && props.onShowContainerLogs && (
                     <Button onClick={() => showLogs()} icon='bars'>
-                        LOGS
+                        {t('workflowList.toolbar.LOGS')}
                     </Button>
                 )}{' '}
                 {props.node.type === 'Pod' && props.onShowEvents && (
                     <Button icon='bell' onClick={() => props.onShowEvents()}>
-                        EVENTS
+                        {t('workflowList.toolbar.EVENTS')}
                     </Button>
                 )}{' '}
                 {props.node.type === 'Container' && props.onShowContainerLogs && (
@@ -214,10 +216,10 @@ function WorkflowNodeSummary(props: Props) {
                                 props.node.name.replace(/.*\./, '')
                             )
                         }>
-                        logs
+                        {t('workflowList.toolbar.Logs')}
                     </Button>
                 )}{' '}
-                {props.node.type === 'Pod' && (
+                {/*{props.node.type === 'Pod' && (
                     <Links
                         button={true}
                         object={{
@@ -233,7 +235,7 @@ function WorkflowNodeSummary(props: Props) {
                         }}
                         scope='pod'
                     />
-                )}
+                )}*/}
             </div>
         </div>
     );
@@ -241,7 +243,7 @@ function WorkflowNodeSummary(props: Props) {
 
 const WorkflowNodeInputs = (props: Props) => (
     <>
-        <h5>Inputs</h5>
+        <h5>{props.t('workflowList.summary.Inputs')}</h5>
         <WorkflowNodeParameters parameters={props.node.inputs && props.node.inputs.parameters} />
         <WorkflowNodeArtifacts {...props} isInput={true} artifacts={props.node.inputs && props.node.inputs.artifacts} />
     </>
@@ -249,7 +251,7 @@ const WorkflowNodeInputs = (props: Props) => (
 
 const WorkflowNodeOutputs = (props: Props) => (
     <>
-        <h5>Outputs</h5>
+        <h5>{props.t('workflowList.summary.Outputs')}</h5>
         <div className='white-box'>
             <div className='white-box__details'>
                 <div className='row'>
@@ -460,44 +462,47 @@ function WorkflowNodeArtifacts(props: {workflow: Workflow; node: NodeStatus; arc
     );
 }
 
-export const WorkflowNodeInfo = (props: Props) => (
-    <div className='workflow-node-info'>
-        <Tabs
-            navCenter={true}
-            navTransparent={true}
-            onTabSelected={props.onTabSelected}
-            selectedTabKey={props.selectedTabKey}
-            tabs={[
-                {
-                    title: 'SUMMARY',
-                    key: 'summary',
-                    content: (
-                        <div>
-                            <WorkflowNodeSummary {...props} />
-                        </div>
-                    )
-                }
-            ].concat(
-                props.node.type !== 'Container'
-                    ? [
-                          {
-                              title: 'CONTAINERS',
-                              key: 'containers',
-                              content: <WorkflowNodeContainers {...props} />
-                          },
-                          {
-                              title: 'INPUTS/OUTPUTS',
-                              key: 'inputs-outputs',
-                              content: (
-                                  <>
-                                      <WorkflowNodeInputs {...props} />
-                                      <WorkflowNodeOutputs {...props} />
-                                  </>
-                              )
-                          }
-                      ]
-                    : []
-            )}
-        />
-    </div>
-);
+export const WorkflowNodeInfo = (props: Props) => {
+    const {t} = useTranslation();
+    return (
+        <div className='workflow-node-info'>
+            <Tabs
+                navCenter={true}
+                navTransparent={true}
+                onTabSelected={props.onTabSelected}
+                selectedTabKey={props.selectedTabKey}
+                tabs={[
+                    {
+                        title: t('workflowList.summary.SUMMARY'),
+                        key: 'summary',
+                        content: (
+                            <div>
+                                <WorkflowNodeSummary {...props} />
+                            </div>
+                        )
+                    }
+                ].concat(
+                    props.node.type !== 'Container'
+                        ? [
+                              {
+                                  title: t('workflowList.summary.CONTAINERS'),
+                                  key: 'containers',
+                                  content: <WorkflowNodeContainers {...props} />
+                              },
+                              {
+                                  title: t('workflowList.summary.INPUTS/OUTPUTS'),
+                                  key: 'inputs-outputs',
+                                  content: (
+                                      <>
+                                          <WorkflowNodeInputs {...props} t={t} />
+                                          <WorkflowNodeOutputs {...props} t={t} />
+                                      </>
+                                  )
+                              }
+                          ]
+                        : []
+                )}
+            />
+        </div>
+    );
+};

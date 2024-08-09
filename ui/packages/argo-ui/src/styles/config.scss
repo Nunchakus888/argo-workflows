@@ -1,0 +1,91 @@
+$body-font-family: 'Heebo', sans-serif !default;
+$global-width: 100%;
+$breakpoint-classes: (small medium large xlarge xxlarge xxxlarge);
+$breakpoints: (
+  small: 0,
+  medium: 640px,
+  large: 1024px,
+  xlarge: 1200px,
+  xxlarge: 1440px,
+  xxxlarge: 1820px,
+);
+
+// ['#E6F7FF', '#BAE7FF', '#91D5FF', ''#69C0FF', '#40A9FF', '#1890FF', '#096DD9', '#0050B3', '#003A8C', '#002766']
+
+$antd-color-blue-1: #E6F7FF;
+$antd-color-blue-2: #BAE7FF;
+$antd-color-blue-3: #91D5FF;
+$antd-color-blue-4: #69C0FF;
+$antd-color-blue-5: #40A9FF;
+$antd-color-blue-6: #1890FF;
+$antd-color-blue-7: #096DD9;
+$antd-color-blue-8: #0050B3;
+$antd-color-blue-9: #003A8C;
+$antd-color-blue-10: #002766;
+
+
+$argo-color-gray-1: #E6F7FF;
+$argo-color-gray-2: #BAE7FF;
+$argo-color-gray-3: #91D5FF;
+$argo-color-gray-4: #69C0FF;
+$argo-color-gray-5: #40A9FF;
+$argo-color-gray-6: #1890FF;
+$argo-color-gray-7: #096DD9;
+$argo-color-gray-8: #0050B3;
+$argo-color-gray-9: #000000;
+
+$argo-color-teal-1: #E6F7FF;
+$argo-color-teal-2: #BAE7FF;
+$argo-color-teal-3: #91D5FF;
+$argo-color-teal-4: #69C0FF;
+$argo-color-teal-5: #40A9FF;
+$argo-color-teal-6: #1890FF;
+$argo-color-teal-7: #096DD9;
+$argo-color-teal-8: #0050B3;
+
+$f5: #f5f5f5;
+$white-color: #ffffff;
+$dark-theme-background-1: #100f0f;
+$dark-theme-background-2: #303237;
+$dark-theme-sliding-panel: #28292a;
+// Status colors
+$argo-failed-color: #E96D76;
+$argo-failed-color-dark: #c04b4f;
+$argo-failed-color-light: #ff6262;
+$argo-status-failed-color: #ef0b28;
+$argo-color-red: #F00052;
+
+$argo-success-color: #18BE94;
+$argo-success-color-dark: #3F946D;
+$argo-success-color-light: #95D58F;
+$argo-status-success-color: #0d8d38;
+$argo-color-green: #7ED321;
+
+$argo-status-warning-color: #f4c030;
+$argo-color-yellow: #FFD100;
+
+$argo-running-color-dark: #378398;
+$argo-running-color-light: #02C4D3;
+$argo-running-color: #0DADEA;
+$argo-suspended-color: #766F94;
+
+$argo-waiting-color-dark: $argo-color-gray-6;
+$argo-waiting-color-light: $argo-color-gray-5;
+$argo-waiting-color: $argo-color-gray-5;
+$argo-cancelled-color: $argo-color-gray-5;
+$argo-init-color: $argo-color-gray-5;
+
+
+$argo-breakpoint-md: 1400px;
+$border-radius: 5px;
+$top-bar-height: 50px;
+$nav-width: 60px;
+$basePageWidth: 1024px;
+
+$nav-z-index: 11;
+$top-bar-z-index: 9;
+$sliding-panel-z-index: 20;
+$notifications-z-index: 21;
+
+$argo-icon-fonts-root: 'assets/fonts/';
+$fa-font-path: 'assets/fonts';

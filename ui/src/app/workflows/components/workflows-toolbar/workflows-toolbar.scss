@@ -1,8 +1,8 @@
 @import 'node_modules/argo-ui/src/styles/config';
 
 .workflows-toolbar {
-    width: calc(100% - 60px);
-    background: $argo-color-gray-2;
+    width: 100%;
+    background: $argo-color-gray-1;
     padding: 0.5em 20px;
     margin-bottom: 0.5em;
     display: flex;

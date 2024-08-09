@@ -9,6 +9,7 @@ import * as Actions from '../../../shared/workflow-operations-map';
 import {WorkflowOperation, WorkflowOperationAction, WorkflowOperationName} from '../../../shared/workflow-operations-map';
 
 import './workflows-toolbar.scss';
+import {useTranslation} from 'react-i18next';
 
 interface WorkflowsToolbarProps {
     selectedWorkflows: Map<string, Workflow>;
@@ -25,6 +26,7 @@ interface WorkflowsOperation extends WorkflowOperation {
 export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
     const {popup, notifications} = useContext(Context);
     const numberSelected = props.selectedWorkflows.size;
+    const {t} = useTranslation();
 
     const operations = useMemo<WorkflowsOperation[]>(() => {
         const actions: any = Actions.WorkflowOperationsMap;
@@ -32,11 +34,14 @@ export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
         return Object.keys(actions).map((actionName: WorkflowOperationName) => {
             const action = actions[actionName];
             return {
-                title: action.title,
+                title: t(`workflowList.toolbar.${action.title}`),
                 iconClassName: action.iconClassName,
                 isDisabled: props.disabledActions[actionName],
                 action: async () => {
-                    const confirmed = await popup.confirm('Confirm', `Are you sure you want to ${action.title.toLowerCase()} all selected workflows?`);
+                    const confirmed = await popup.confirm(
+                        t('workflowList.actions.confirm.title'),
+                        t('workflowList.actions.confirm.msg', {action: t(`workflowList.toolbar.${action.title}`)})
+                    );
                     if (!confirmed) {
                         return;
                     }
@@ -46,7 +51,10 @@ export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
                         // check if there are archived workflows to delete
                         for (const entry of props.selectedWorkflows) {
                             if (isArchivedWorkflow(entry[1])) {
-                                deleteArchived = await popup.confirm('Confirm', 'Do you also want to delete them from the Archived Workflows database?');
+                                deleteArchived = await popup.confirm(
+                                    t('workflowList.actions.confirm.title'),
+                                    t('workflowList.actions.confirm.Do you also want to delete them from the Archived Workflows database')
+                                );
                                 break;
                             }
                         }
@@ -56,7 +64,8 @@ export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
 
                     props.clearSelection();
                     notifications.show({
-                        content: `Performed '${action.title}' on selected workflows.`,
+                        // content: `Performed '${action.title}' on selected workflows.`,
+                        content: t('workflowList.actions.execute.common', {action: t(`workflowList.toolbar.${action.title}`)}),
                         type: NotificationType.Success
                     });
                     props.loadWorkflows();
@@ -75,7 +84,8 @@ export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
                     promises.push(
                         services.workflows.delete(wf.metadata.name, wf.metadata.namespace).catch(reason =>
                             notifications.show({
-                                content: `Unable to delete workflow ${wf.metadata.name} in the cluster: ${reason.toString()}`,
+                                // content: `Unable to delete workflow ${wf.metadata.name} in the cluster: ${reason.toString()}`,
+                                content: t('workflowList.actions.execute.deleteClusterMsg', {name: wf.metadata.name, reason: reason.toString()}),
                                 type: NotificationType.Error
                             })
                         )
@@ -85,7 +95,8 @@ export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
                     promises.push(
                         services.workflows.deleteArchived(wf.metadata.uid, wf.metadata.namespace).catch(reason =>
                             notifications.show({
-                                content: `Unable to delete workflow ${wf.metadata.name} in database: ${reason.toString()}`,
+                                // content: `Unable to delete workflow ${wf.metadata.name} in database: ${reason.toString()}`,
+                                content: t('workflowList.actions.execute.deleteDbMsg', {name: wf.metadata.name, reason: reason.toString()}),
                                 type: NotificationType.Error
                             })
                         )
@@ -95,7 +106,8 @@ export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
                 promises.push(
                     action(wf).catch(reason => {
                         notifications.show({
-                            content: `Unable to ${title} workflow: ${reason.content.toString()}`,
+                            // content: `Unable to ${title} workflow: ${reason.content.toString()}`,
+                            content: t('workflowList.actions.execute.unable', {title: t(`workflowList.toolbar.${title}`), reason: reason.content?.toString()}),
                             type: NotificationType.Error
                         });
                     })
@@ -108,8 +120,7 @@ export function WorkflowsToolbar(props: WorkflowsToolbarProps) {
     return (
         <div className={`workflows-toolbar ${numberSelected === 0 ? 'hidden' : ''}`}>
             <div className='workflows-toolbar__count'>
-                {numberSelected === 0 ? 'No' : numberSelected}
-                &nbsp;workflow{numberSelected === 1 ? '' : 's'} selected
+                {t('workflowList.toolbar.workflows selected', {count: numberSelected})}
             </div>
             <div className='workflows-toolbar__actions'>
                 {operations.map(operation => {

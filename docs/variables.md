@@ -12,19 +12,19 @@ kind: Workflow
 metadata:
   generateName: hello-world-parameters-
 spec:
-  entrypoint: print-message
+  entrypoint: whalesay
   arguments:
     parameters:
       - name: message
         value: hello world
   templates:
-    - name: print-message
+    - name: whalesay
       inputs:
         parameters:
           - name: message
       container:
-        image: busybox
-        command: [ echo ]
+        image: docker/whalesay
+        command: [ cowsay ]
         args: [ "{{inputs.parameters.message}}" ]
 ```
 

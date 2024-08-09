@@ -24,10 +24,10 @@
     "--add-host=azurite:127.0.0.1"
   ],
   "postCreateCommand": ".devcontainer/pre-build.sh",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/go/src/github.com/argoproj/argo-workflows,type=bind",
-  "workspaceFolder": "/home/vscode/go/src/github.com/argoproj/argo-workflows",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/vscode/go/src/github.com/argoproj/argo-workflows,type=bind",
+  "workspaceFolder": "/vscode/go/src/github.com/argoproj/argo-workflows",
   "remoteEnv": {
-    "PATH": "${containerEnv:PATH}:/home/vscode/go/bin",
-    "GOPATH": "/home/vscode/go"
+    "PATH": "${containerEnv:PATH}:/vscode/go/bin",
+    "GOPATH": "/vscode/go"
   }
 }

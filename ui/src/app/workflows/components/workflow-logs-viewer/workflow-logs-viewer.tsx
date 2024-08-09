@@ -10,7 +10,6 @@ import debounce from '../../../shared/debounce';
 import {Button} from '../../../shared/components/button';
 import {ErrorNotice} from '../../../shared/components/error-notice';
 import {InfoIcon, WarningIcon} from '../../../shared/components/fa-icons';
-import {Links} from '../../../shared/components/links';
 import {Context} from '../../../shared/context';
 import {useLocalStorage} from '../../../shared/use-local-storage';
 import {getPodName, getTemplateNameFromNode} from '../../../shared/pod-name';
@@ -18,6 +17,7 @@ import {ScopedLocalStorage} from '../../../shared/scoped-local-storage';
 import {services} from '../../../shared/services';
 import {FullHeightLogsViewer} from './full-height-logs-viewer';
 import {extractJsonValue, JsonLogsFieldSelector, SelectedJsonFields} from './json-logs-field-selector';
+import {useTranslation} from 'react-i18next';
 
 const TZ_LOCALSTORAGE_KEY = 'DEFAULT_TZ';
 const DEFAULT_TZ = process.env.DEFAULT_TZ || 'UTC';
@@ -77,6 +77,7 @@ function parseAndTransform(formattedString: string, timeZone: string) {
 export function WorkflowLogsViewer({workflow, initialNodeId, initialPodName, container, archived}: WorkflowLogsViewerProps) {
     const storage = new ScopedLocalStorage('workflow-logs-viewer');
 
+    const {t} = useTranslation();
     const {popup} = useContext(Context);
     const [podName, setPodName] = useState(initialPodName || '');
     const [selectedContainer, setContainer] = useState(container);
@@ -186,7 +187,7 @@ export function WorkflowLogsViewer({workflow, initialNodeId, initialPodName, con
 
     async function popupJsonFieldSelector() {
         const fields = {...selectedJsonFields};
-        const updated = await popup.confirm('Select Json Fields', () => (
+        const updated = await popup.confirm(t('workflowList.logs.Select Json Fields'), () => (
             <JsonLogsFieldSelector
                 fields={selectedJsonFields}
                 onChange={values => {
@@ -202,10 +203,11 @@ export function WorkflowLogsViewer({workflow, initialNodeId, initialPodName, con
 
     return (
         <div className='workflow-logs-viewer'>
-            <h3>Logs</h3>
+            <h3>{t('workflowList.toolbar.Logs')}</h3>
             {archived && (
                 <p>
-                    <i className='fa fa-exclamation-triangle' /> Logs for archived workflows may be overwritten by a more recent workflow with the same name.
+                    <i className='fa fa-exclamation-triangle' />
+                    {t('workflowList.logs.Logs for archived workflows may be overwritten by a more recent workflow with the same name.')}{' '}
                 </p>
             )}
             <div style={{marginBottom: 10}}>
@@ -239,11 +241,13 @@ export function WorkflowLogsViewer({workflow, initialNodeId, initialPodName, con
                     )}
                 />
                 <Button onClick={popupJsonFieldSelector} icon={'exchange-alt'}>
-                    Log Fields
+                    {
+                        t('workflowList.logs.Log Fields')
+                    }
                 </Button>
                 <span className='fa-pull-right'>
                     <div className='log-menu'>
-                        <i className='fa fa-filter' /> <input type='search' defaultValue={grep} onChange={v => setDebouncedGrep(v.target.value)} placeholder='Filter (regexp)...' />
+                        <i className='fa fa-filter' /> <input type='search' defaultValue={grep} onChange={v => setDebouncedGrep(v.target.value)} placeholder={t('workflowList.logs.Filter (regexp)...')} />
                         <i className='fa fa-globe' />{' '}
                         <Autocomplete
                             items={filteredTimezones}
@@ -272,29 +276,30 @@ export function WorkflowLogsViewer({workflow, initialNodeId, initialPodName, con
             <p>
                 {selectedContainer === 'init' && (
                     <>
-                        <InfoIcon /> Init containers logs are useful when debugging input artifact problems.
+                        <InfoIcon /> { t('workflowList.logs.Init containers logs are useful when debugging input artifact problems.') }
                     </>
                 )}
                 {selectedContainer === 'wait' && (
                     <>
                         {' '}
-                        <InfoIcon /> Wait containers logs are useful when debugging output artifact problems.
+                        <InfoIcon /> { t('workflowList.logs.Wait containers logs are useful when debugging synchronization problems.') }
                     </>
                 )}
                 {podName && podNamesToNodeIDs.get(podName) && (
                     <>
-                        Still waiting for data or an error? Try getting{' '}
-                        <a href={services.workflows.getArtifactLogsPath(workflow, podNamesToNodeIDs.get(podName), selectedContainer, archived)}>logs from the artifacts</a>.
+                        {t('workflowList.logs.Still waiting for data or an error? Try getting')}
+                        {t('workflowList.logs.logs from the artifacts')}
+                        {/*<a href={services.workflows.getArtifactLogsPath(workflow, podNamesToNodeIDs.get(podName), selectedContainer, archived)}></a>.*/}
                     </>
                 )}
                 {execSpec(workflow).podGC && (
                     <>
-                        <WarningIcon /> Your pod GC settings will delete pods and their logs{' '}
-                        {execSpec(workflow).podGC.deleteDelayDuration ? `after ${execSpec(workflow).podGC.deleteDelayDuration}` : 'immediately'} on completion.
+                        <WarningIcon /> {t('workflowList.logs.Your pod GC settings will delete pods and their logs')}
+                        {execSpec(workflow).podGC.deleteDelayDuration ? `after ${execSpec(workflow).podGC.deleteDelayDuration}` : 'immediately'} {t('workflowList.logs.on completion.')}
                     </>
                 )}{' '}
-                Logs may not appear for pods that are deleted.{' '}
-                {podName ? (
+                {t('workflowList.logs.Logs may not appear for pods that are deleted.')}
+                {/*{podName ? (
                     <Links
                         object={{
                             metadata: {
@@ -311,7 +316,7 @@ export function WorkflowLogsViewer({workflow, initialNodeId, initialPodName, con
                     />
                 ) : (
                     <Links object={workflow} scope='workflow' />
-                )}
+                )}*/}
             </p>
         </div>
     );

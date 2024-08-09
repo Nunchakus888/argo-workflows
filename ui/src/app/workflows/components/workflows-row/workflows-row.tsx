@@ -13,6 +13,7 @@ import {PhaseIcon} from '../../../shared/components/phase-icon';
 import {Timestamp} from '../../../shared/components/timestamp';
 import {wfDuration} from '../../../shared/duration';
 import {WorkflowDrawer} from '../workflow-drawer/workflow-drawer';
+import {useTranslation} from "react-i18next";
 
 require('./workflows-row.scss');
 
@@ -32,6 +33,7 @@ export function WorkflowsRow(props: WorkflowsRowProps) {
     const description = (wf.metadata.annotations?.[ANNOTATION_DESCRIPTION] && `\n${wf.metadata.annotations[ANNOTATION_DESCRIPTION]}`) || '';
     const hasAnnotation = title !== wf.metadata.name && description !== '';
     const markdown = `${title}${description}`;
+    const {t} = useTranslation();
 
     return (
         <div className='workflows-list__row-container'>
@@ -82,23 +84,23 @@ export function WorkflowsRow(props: WorkflowsRowProps) {
                                 className={`workflows-row__action workflows-row__action--${hideDrawer ? 'show' : 'hide'}`}>
                                 {hideDrawer ? (
                                     <span>
-                                        SHOW <i className='fas fa-caret-down' />{' '}
+                                        {t('SHOW')} <i className='fas fa-caret-down' />{' '}
                                     </span>
                                 ) : (
                                     <span>
-                                        HIDE <i className='fas fa-caret-up' />
+                                        {t('HIDE')} <i className='fas fa-caret-up' />
                                     </span>
                                 )}
                             </div>
                         </div>
                     </div>
-                    <div className='columns small-1'>{isArchivedWorkflow(wf) ? 'true' : 'false'}</div>
+                    <div className='columns small-1'>{t(isArchivedWorkflow(wf) ? 'true' : 'false')}</div>
                     {(props.columns || []).map(column => {
                         // best not to make any assumptions and wait until this data is filled
                         const value = (column.type === 'label' ? wf?.metadata?.labels?.[column.key] : wf?.metadata?.annotations?.[column.key]) ?? 'unknown';
                         return (
                             <div key={column.name} className='columns small-1'>
-                                {value}
+                                {t(value)}
                             </div>
                         );
                     })}

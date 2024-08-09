@@ -10,6 +10,7 @@ import {DataLoaderDropdown} from '../../../shared/components/data-loader-dropdow
 import {NamespaceFilter} from '../../../shared/components/namespace-filter';
 import {TagsInput} from '../../../shared/components/tags-input/tags-input';
 import {services} from '../../../shared/services';
+import {useTranslation} from 'react-i18next';
 
 import './workflow-filters.scss';
 
@@ -30,7 +31,7 @@ interface WorkflowFilterProps {
 
 export function WorkflowFilters(props: WorkflowFilterProps) {
     function setLabel(name: string, value: string) {
-        props.setLabels([name.concat('=' + value)]);
+        props.setLabels([name.concat('filter.=' + value)]);
     }
 
     function setWorkflowTemplate(value: string) {
@@ -57,19 +58,21 @@ export function WorkflowFilters(props: WorkflowFilterProps) {
         return results;
     }, [props.workflows, props.phaseItems]);
 
+    const {t} = useTranslation();
+
     return (
         <div className='wf-filters-container'>
             <div className='row'>
                 <div className='columns small-2 xlarge-12'>
-                    <p className='wf-filters-container__title'>Namespace</p>
+                    <p className='wf-filters-container__title'>{t('filter.namespace')}</p>
                     <NamespaceFilter value={props.namespace} onChange={props.setNamespace} />
                 </div>
                 <div className='columns small-2 xlarge-12'>
-                    <p className='wf-filters-container__title'>Labels</p>
+                    <p className='wf-filters-container__title'>{t('filter.labels')}</p>
                     <TagsInput placeholder='' autocomplete={labelSuggestion} tags={props.labels} onChange={props.setLabels} />
                 </div>
                 <div className='columns small-2 xlarge-12'>
-                    <p className='wf-filters-container__title'>Workflow Template</p>
+                    <p className='wf-filters-container__title'>{t('filter.workflowTemplate')}</p>
                     <DataLoaderDropdown
                         load={async () => {
                             const list = await services.workflowTemplate.list(props.namespace, []);
@@ -79,7 +82,7 @@ export function WorkflowFilters(props: WorkflowFilterProps) {
                     />
                 </div>
                 <div className='columns small-2 xlarge-12'>
-                    <p className='wf-filters-container__title'>Cron Workflow</p>
+                    <p className='wf-filters-container__title'>{t('filter.cronWorkflow')}</p>
                     <DataLoaderDropdown
                         load={async () => {
                             const list = await services.cronWorkflows.list(props.namespace);
@@ -89,11 +92,11 @@ export function WorkflowFilters(props: WorkflowFilterProps) {
                     />
                 </div>
                 <div className='columns small-4 xlarge-12'>
-                    <p className='wf-filters-container__title'>Phases</p>
+                    <p className='wf-filters-container__title'>{t('filter.Phases')}</p>
                     <CheckboxFilter selected={props.phases} onChange={props.setPhases} items={phaseItems} type='phase' />
                 </div>
                 <div className='columns small-5 xlarge-12'>
-                    <p className='wf-filters-container__title'>Created Since</p>
+                    <p className='wf-filters-container__title'>{t('filter.createdSince')}</p>
                     <div className='wf-filters-container__content'>
                         <DatePicker
                             selected={props.createdAfter}
@@ -107,7 +110,7 @@ export function WorkflowFilters(props: WorkflowFilterProps) {
                             <i className='fa fa-times-circle' />
                         </a>
                     </div>
-                    <p className='wf-filters-container__title'>Finished Before</p>
+                    <p className='wf-filters-container__title'>{t('filter.finishedBefore')}</p>
                     <div className='wf-filters-container__content'>
                         <DatePicker
                             selected={props.finishedBefore}

@@ -1,0 +1,41 @@
+{
+  "createdSince": "Created Since",
+  "cronWorkflow": "Cron Workflow",
+  "entrypoint": "Entrypoint",
+  "error": "Error",
+  "failed": "Failed",
+  "finishedBefore": "Finished Before",
+  "label": "Label",
+  "labels": "Labels",
+  "login": "Login",
+  "logs": "Logs",
+  "namespace": "Namespace",
+  "parameters": "Parameters",
+  "pending": "Pending",
+  "phases": "Phases",
+  "plugins": "Plugins",
+  "resubmit": "RESUBMIT",
+  "retry": "RETRY",
+  "runningWorkflows": "Running workflows",
+  "share": "Share",
+  "submit": "Submit",
+  "submitNewWorkflow": "Submit New Workflow",
+  "submitWorkflow": "Submit Workflow",
+  "succeeded": "Succeeded",
+  "workflowTemplate": "Workflow Template",
+  "workflowTemplates": "Workflow Templates",
+  "workflowList": {
+    "columns": {
+      "NAME": "NAME",
+      "NAMESPACE": "NAMESPACE",
+      "STARTED":  "STARTED",
+      "FINISHED": "FINISHED",
+      "DURATION":  "DURATION",
+      "PROGRESS": "PROGRESS",
+      "MESSAGE":  "MESSAGE",
+      "DETAILS": "DETAILS",
+      "ARCHIVED":  "ARCHIVED",
+      "Workflow Completed": "Workflow Completed"
+    }
+  }
+}

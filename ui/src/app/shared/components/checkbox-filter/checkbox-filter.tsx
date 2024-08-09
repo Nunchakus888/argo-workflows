@@ -2,6 +2,7 @@ import {Checkbox} from 'argo-ui/src/components/checkbox';
 import * as React from 'react';
 
 import './checkbox-filter.scss';
+import {useTranslation} from "react-i18next";
 
 interface Props {
     items: {name: string; count: number}[];
@@ -13,6 +14,7 @@ interface Props {
 export function CheckboxFilter(props: Props) {
     const unavailableSelected = props.selected.filter(selected => !props.items.some(item => item.name === selected));
     const items = props.items.concat(unavailableSelected.map(selected => ({name: selected, count: 0})));
+    const {t} = useTranslation();
 
     return (
         <ul className='checkbox-filter columns small-12'>
@@ -36,7 +38,7 @@ export function CheckboxFilter(props: Props) {
                                     }}
                                 />{' '}
                                 <label title={item.name} htmlFor={`filter-${props.type}-${item.name}`}>
-                                    {item.name}
+                                    {t(`workflowList.summary.${item.name}`)}
                                 </label>
                             </div>
                         </div>
