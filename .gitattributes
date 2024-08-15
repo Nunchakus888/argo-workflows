@@ -5,4 +5,3 @@ manifests/quick-start-*.yaml linguist-generated
 api/jsonschema/schema.json linguist-generated
 api/openapi-spec/swagger.json linguist-generated
 pkg/client/** linguist-generated
-git.zip filter=lfs diff=lfs merge=lfs -text
