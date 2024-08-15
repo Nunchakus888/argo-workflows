@@ -12,7 +12,7 @@
 assets
 community
 coverage.out
-dist
+#dist
 docs
 examples
 logs
@@ -22,7 +22,7 @@ sdks
 site
 tasks.yaml
 test/e2e
-ui/dist
+#ui/dist
 ui/node_modules
 v3
 vendor

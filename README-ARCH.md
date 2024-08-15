@@ -174,6 +174,198 @@ example:
 ```
 
 
+### template types
+
+1. HTTP Template is a type of template which can execute HTTP Requests.
+
+```yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: http-template-
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      steps:
+        - - name: get-google-homepage
+            template: http
+            arguments:
+              parameters: [{name: url, value: "https://www.google.com"}]
+    - name: http
+      inputs:
+        parameters:
+          - name: url
+      http:
+        timeoutSeconds: 20 # Default 30
+        url: "{{inputs.parameters.url}}"
+        method: "GET" # Default GET
+        headers:
+          - name: "x-header-name"
+            value: "test-value"
+        # Template will succeed if evaluated to true, otherwise will fail
+        # Available variables:
+        #  request.body: string, the request body
+        #  request.headers: map[string][]string, the request headers
+        #  response.url: string, the request url
+        #  response.method: string, the request method
+        #  response.statusCode: int, the response status code
+        #  response.body: string, the response body
+        #  response.headers: map[string][]string, the response headers
+        successCondition: "response.body contains \"google\"" # available since v3.3
+        body: "test body" # Change request body
+
+```
+
+Argo Agent
+http template 使用 argo agent 来执行 http 请求，argo agent 是一个独立的进程，它运行在 pod 中，它可以执行 http 请求，也可以执行其他任务。
+
+
+2. Container Set Template
+   容器集模板与普通容器或脚本模板类似，但允许您指定多个容器在单个 Pod 中运行。
+   因为一个 Pod 中有多个容器，所以它们将被安排在同一主机上。您可以使用廉价且快速的空目录卷而不是持久卷声明来在步骤之间共享数据。
+
+```yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: container-set-template-
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      volumes:
+        - name: workspace
+          emptyDir: { }
+      containerSet:
+        volumeMounts:
+          - mountPath: /workspace
+            name: workspace
+        containers:
+          - name: a
+            image: argoproj/argosay:v2
+            command: [sh, -c]
+            args: ["echo 'a: hello world' >> /workspace/message"]
+          - name: b
+            image: argoproj/argosay:v2
+            command: [sh, -c]
+            args: ["echo 'b: hello world' >> /workspace/message"]
+          - name: main
+            image: argoproj/argosay:v2
+            command: [sh, -c]
+            args: ["echo 'main: hello world' >> /workspace/message"]
+            dependencies:
+              - a
+              - b
+      outputs:
+        parameters:
+          - name: message
+            valueFrom:
+              path: /workspace/message
+
+```
+
+
+3. Data Sourcing and Transformations
+   数据源和转换模板允许您从外部数据源（例如 S3 存储桶）加载数据，然后将其转换为工作流中的参数。
+
+```shell
+
+find -r . | grep ".pdf" | sed "s/foo/foo.ready/"
+
+```
+
+In Argo, this operation would be written as:
+
+
+```yaml
+
+- name: generate-artifacts
+  data:
+    source:             # Define a source for the data, only a single "source" is permitted
+      artifactPaths:    # A predefined source: Generate a list of all artifact paths in a given repository
+        s3:             # Source from an S3 bucket
+          bucket: test
+          endpoint: minio:9000
+          insecure: true
+          accessKeySecret:
+            name: my-minio-cred
+            key: accesskey
+          secretKeySecret:
+            name: my-minio-cred
+            key: secretkey
+    transformation:     # The source is then passed to be transformed by transformations defined here
+      - expression: "filter(data, {# endsWith \".pdf\"})"
+      - expression: "map(data, {# + \".ready\"})"
+
+```
+
+
+4. Inline Templates
+   内联模板允许您在工作流规范中定义模板
+
+* Steps
+
+```yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: dag-inline-
+  labels:
+    workflows.argoproj.io/test: "true"
+  annotations:
+    workflows.argoproj.io/description: |
+      This example demonstrates running a DAG with inline templates.
+    workflows.argoproj.io/version: ">= 3.2.0"
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      dag:
+        tasks:
+          - name: a
+            inline:
+              container:
+                image: argoproj/argosay:v2
+
+```
+
+
+* DAG
+
+
+
+```yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: dag-inline-
+  labels:
+    workflows.argoproj.io/test: "true"
+  annotations:
+    workflows.argoproj.io/description: |
+      This example demonstrates running a DAG with inline templates.
+    workflows.argoproj.io/version: ">= 3.2.0"
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      dag:
+        tasks:
+          - name: a
+            inline:
+              container:
+                image: argoproj/argosay:v2
+
+```
+
+
+
+
 ### Workflow Templates 工作流模板
 
 
